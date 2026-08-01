@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onde Tem</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+<!-- Tela principal -->
+<div id="telaBoasVindas" style="display:none;">
+
+    <h2>Benvindo ao nosso Atacarejo Quixadá </h2>
+
+    <p>Digite o produto que gostaria de localizar:</p>
+
+    <input
+        type="text"
+        id="pesquisa"
+        placeholder="Ex.: Arroz, Leite, Café"
+    >
+
+    <br><br>
+
+    <button onclick="localizarProduto()">
+        Localizar
+    </button>
+
+    <br><br>
+
+    <button onclick="listarProdutos()">
+        Listar Produtos
+    </button>
+
+    <br><br>
+
+    <button onclick="voltar()">
+        Voltar
+    </button>
+
+</div>
+
+
+<!-- Tela lista de produtos -->
+<div id="telaProdutos" style="display:none;">
+
+    <h2>Lista de Produtos</h2>
+
+    <div id="listaProdutos"></div>
+
+    <br>
+
+    <button onclick="voltarProdutos()">
+        Voltar
+    </button>
+
+</div>
+
+
+<!-- Tela localização -->
+<div id="telaLocalizacao" style="display:none;">
+
+    <h2>Localização do Produto</h2>
+
+    <h3 id="nomeProduto"></h3>
+
+    <div class="card">
+
+        <h4>📍 Mapa do Supermercado</h4>
+
+        <div id="mapaSupermercado"></div>
+
+    </div>
+
+    <div class="card">
+
+        <h4>🏷️ Marcas Disponíveis</h4>
+
+        <div id="listaMarcas"></div>
+
+    </div>
+
+    <button onclick="voltarLocalizacao()">
+        Voltar
+    </button>
+
+</div>
+
+
+<script src="mapa.js"></script>
+<script src="script.js"></script>
+
+</body>
+
+</html>
