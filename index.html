@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onde Tem - Nosso Atacarejo Quixadá</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- Tela principal (agora inicia VISÍVEL com display:block) -->
-<div id="telaBoasVindas" style="display:block;">
+<!-- Tela principal -->
+<div id="telaBoasVindas" style="display: block;">
 
     <h2>Bem-vindo ao Nosso Atacarejo Quixadá</h2>
 
@@ -40,7 +39,7 @@
 
 
 <!-- Tela lista de produtos -->
-<div id="telaProdutos" style="display:none;">
+<div id="telaProdutos" style="display: none;">
 
     <h2>Lista de Produtos</h2>
 
@@ -56,34 +55,29 @@
 
 
 <!-- Tela localização -->
-<div id="telaLocalizacao" style="display:none;">
+<div id="telaLocalizacao" style="display: none;">
 
     <h2>Localização do Produto</h2>
 
     <h3 id="nomeProduto"></h3>
 
     <div class="card">
-
         <h4>📍 Mapa do Supermercado</h4>
-
         <div id="mapaSupermercado"></div>
-
     </div>
 
     <div class="card">
-
         <h4>🏷️ Marcas Disponíveis</h4>
-
         <div id="listaMarcas"></div>
-
     </div>
+
+    <br>
 
     <button onclick="voltarLocalizacao()">
         Voltar
     </button>
 
 </div>
-
 
 <script src="mapa.js"></script>
 <script src="script.js"></script>
