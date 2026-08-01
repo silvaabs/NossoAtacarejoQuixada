@@ -1,13 +1,12 @@
-// Nome do arquivo JSON contendo o catálogo do Nosso Atacarejo Quixadá
+// Nome do arquivo JSON da loja no GitHub
 const ARQUIVO_PRODUTOS = "nossoAtacarejoQuixada.json";
 
-// Pesquisa produto por nome ou marcas
+// Pesquisa produto
 async function localizarProduto() {
-    const pesquisa = document
-        .getElementById("pesquisa")
-        .value
-        .trim()
-        .toLowerCase();
+    const pesquisaInput = document.getElementById("pesquisa");
+    if (!pesquisaInput) return;
+
+    const pesquisa = pesquisaInput.value.trim().toLowerCase();
 
     if (pesquisa === "") {
         alert("Digite o nome de um produto.");
@@ -16,14 +15,19 @@ async function localizarProduto() {
 
     try {
         const resposta = await fetch(ARQUIVO_PRODUTOS);
+        
+        if (!resposta.ok) {
+            throw new Error(`Não foi possível carregar ${ARQUIVO_PRODUTOS}`);
+        }
+
         const produtos = await resposta.json();
 
-        // Procura por nome do produto
+        // Busca por nome do produto
         let resultados = produtos.filter(produto =>
             produto.nome.toLowerCase().includes(pesquisa)
         );
 
-        // Se não encontrou pelo nome, procura pelas marcas
+        // Se não encontrou por nome, busca por marca
         if (resultados.length === 0) {
             resultados = produtos.filter(produto =>
                 produto.marcas?.some(marca =>
@@ -32,7 +36,6 @@ async function localizarProduto() {
             );
         }
 
-        // Nenhum resultado encontrado
         if (resultados.length === 0) {
             alert("Produto não encontrado.");
             return;
@@ -40,13 +43,11 @@ async function localizarProduto() {
 
         resultados.sort((a, b) => a.nome.localeCompare(b.nome));
 
-        // Apenas um resultado: abre direto a localização
         if (resultados.length === 1) {
             mostrarLocalizacao(resultados[0]);
             return;
         }
 
-        // Vários resultados: exibe lista para escolha
         document.getElementById("telaBoasVindas").style.display = "none";
         document.getElementById("telaProdutos").style.display = "block";
 
@@ -54,7 +55,7 @@ async function localizarProduto() {
 
     } catch (erro) {
         console.error(erro);
-        alert("Erro ao carregar o arquivo " + ARQUIVO_PRODUTOS);
+        alert("Erro ao carregar o arquivo de produtos.");
     }
 }
 
@@ -62,6 +63,11 @@ async function localizarProduto() {
 async function listarProdutos() {
     try {
         const resposta = await fetch(ARQUIVO_PRODUTOS);
+
+        if (!resposta.ok) {
+            throw new Error(`Não foi possível carregar ${ARQUIVO_PRODUTOS}`);
+        }
+
         const produtos = await resposta.json();
 
         document.getElementById("telaBoasVindas").style.display = "none";
@@ -73,11 +79,11 @@ async function listarProdutos() {
 
     } catch (erro) {
         console.error(erro);
-        alert("Erro ao carregar o arquivo " + ARQUIVO_PRODUTOS);
+        alert("Erro ao carregar o arquivo de produtos.");
     }
 }
 
-// Renderiza a lista de botões de produtos
+// Auxiliar para desenhar os botões na telaProdutos
 function renderizarListaProdutos(listaArray) {
     const listaProdutos = document.getElementById("listaProdutos");
     listaProdutos.innerHTML = "";
@@ -95,21 +101,18 @@ function renderizarListaProdutos(listaArray) {
     });
 }
 
-// Mostra localização do produto
+// Mostra localização
 function mostrarLocalizacao(produto) {
     document.getElementById("telaProdutos").style.display = "none";
     document.getElementById("telaBoasVindas").style.display = "none";
     document.getElementById("telaLocalizacao").style.display = "block";
 
-    // Nome do produto
     document.getElementById("nomeProduto").textContent = produto.nome;
 
-    // Desenha o mapa (se a função existir no mapa.js)
     if (typeof atualizarMapa === "function") {
         atualizarMapa(produto);
     }
 
-    // Lista de marcas
     const listaMarcas = document.getElementById("listaMarcas");
     listaMarcas.innerHTML = "";
 
@@ -128,8 +131,7 @@ function mostrarLocalizacao(produto) {
     });
 }
 
-// --- Funções de Navegação (Voltar) ---
-
+// NAVEGAÇÃO
 function voltarProdutos() {
     document.getElementById("telaProdutos").style.display = "none";
     document.getElementById("telaBoasVindas").style.display = "block";
