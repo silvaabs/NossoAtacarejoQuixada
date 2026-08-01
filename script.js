@@ -1,20 +1,7 @@
-// Arquivo de dados fixo para a loja
+// Nome do arquivo JSON contendo o catálogo do Nosso Atacarejo Quixadá
 const ARQUIVO_PRODUTOS = "nossoAtacarejoQuixada.json";
 
-// Inicializa a tela ao carregar o script
-document.addEventListener("DOMContentLoaded", () => {
-    // Configura a mensagem de boas-vindas
-    document.getElementById("mensagem").textContent = "Bem-vindo ao Nosso Atacarejo Quixadá";
-    
-    // Garante que a tela de boas-vindas (com busca e listagem) esteja visível
-    document.getElementById("telaBoasVindas").style.display = "block";
-    
-    // Esconde a tela antiga de seleção se ela ainda existir no HTML
-    const telaLista = document.getElementById("telaLista");
-    if (telaLista) telaLista.style.display = "none";
-});
-
-// Pesquisa produto
+// Pesquisa produto por nome ou marcas
 async function localizarProduto() {
     const pesquisa = document
         .getElementById("pesquisa")
@@ -45,7 +32,7 @@ async function localizarProduto() {
             );
         }
 
-        // Nenhum resultado
+        // Nenhum resultado encontrado
         if (resultados.length === 0) {
             alert("Produto não encontrado.");
             return;
@@ -53,13 +40,13 @@ async function localizarProduto() {
 
         resultados.sort((a, b) => a.nome.localeCompare(b.nome));
 
-        // Apenas um resultado
+        // Apenas um resultado: abre direto a localização
         if (resultados.length === 1) {
             mostrarLocalizacao(resultados[0]);
             return;
         }
 
-        // Vários resultados
+        // Vários resultados: exibe lista para escolha
         document.getElementById("telaBoasVindas").style.display = "none";
         document.getElementById("telaProdutos").style.display = "block";
 
@@ -67,7 +54,7 @@ async function localizarProduto() {
 
     } catch (erro) {
         console.error(erro);
-        alert("Erro ao carregar o catálogo do Nosso Atacarejo.");
+        alert("Erro ao carregar o arquivo " + ARQUIVO_PRODUTOS);
     }
 }
 
@@ -86,11 +73,11 @@ async function listarProdutos() {
 
     } catch (erro) {
         console.error(erro);
-        alert("Erro ao carregar o catálogo do Nosso Atacarejo.");
+        alert("Erro ao carregar o arquivo " + ARQUIVO_PRODUTOS);
     }
 }
 
-// Renderiza os botões de produtos na telaProdutos
+// Renderiza a lista de botões de produtos
 function renderizarListaProdutos(listaArray) {
     const listaProdutos = document.getElementById("listaProdutos");
     listaProdutos.innerHTML = "";
@@ -117,7 +104,7 @@ function mostrarLocalizacao(produto) {
     // Nome do produto
     document.getElementById("nomeProduto").textContent = produto.nome;
 
-    // Desenha o mapa
+    // Desenha o mapa (se a função existir no mapa.js)
     if (typeof atualizarMapa === "function") {
         atualizarMapa(produto);
     }
